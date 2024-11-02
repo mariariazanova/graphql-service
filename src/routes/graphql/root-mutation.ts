@@ -1,5 +1,5 @@
-import {GraphQLNonNull, GraphQLObjectType} from 'graphql/type/index.js';
-import {GraphQLBoolean, GraphQLString} from 'graphql';
+import { GraphQLNonNull, GraphQLObjectType } from 'graphql/type/index.js';
+import { GraphQLBoolean, GraphQLString } from 'graphql';
 import { UUIDType} from './types/uuid.js';
 import { ChangeUserInputType, CreateUserInputType, UserType } from './types/user.js';
 import userResolvers from './resolvers/user-resolvers.js';
@@ -7,7 +7,7 @@ import { ChangePostInputType, CreatePostInputType, PostType } from './types/post
 import postResolvers from './resolvers/post-resolvers.js';
 import { ChangeProfileInputType, CreateProfileInputType, ProfileType } from './types/profile.js';
 import profileResolvers from './resolvers/profile-resolvers.js';
-import subscriptionResolvers from "./resolvers/subscription-resolvers.js";
+import subscriptionResolvers from './resolvers/subscription-resolvers.js';
 
 const id = { type: new GraphQLNonNull(UUIDType) };
 

@@ -1,10 +1,10 @@
-import { GraphQLBoolean, GraphQLInt, GraphQLList, GraphQLNonNull, GraphQLObjectType } from "graphql";
-import { Profile } from "@prisma/client";
-import { UUIDType } from "./uuid.js";
+import { GraphQLBoolean, GraphQLInt, GraphQLList, GraphQLNonNull, GraphQLObjectType } from 'graphql';
+import { GraphQLInputObjectType } from 'graphql/type/index.js';
+import { Profile } from '@prisma/client';
+import { UUIDType } from './uuid.js';
 import { Context } from '../get-gql-context.js';
-import {GraphQLInputObjectType} from "graphql/type/index.js";
 import { MemberType, MemberTypeId } from './member.js';
-import memberResolvers from "../resolvers/member-resolvers.js";
+import memberResolvers from '../resolvers/member-resolvers.js';
 
 const id = { type: new GraphQLNonNull(UUIDType) };
 const isMale = { type: GraphQLBoolean };
