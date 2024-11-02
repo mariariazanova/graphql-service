@@ -3,7 +3,8 @@ import { Profile } from "@prisma/client";
 import { UUIDType } from "./uuid.js";
 import { Context } from '../get-gql-context.js';
 import {GraphQLInputObjectType} from "graphql/type/index.js";
-import {MemberTypeId} from "./member.js";
+import { MemberType, MemberTypeId } from './member.js';
+import memberResolvers from "../resolvers/member-resolvers.js";
 
 const id = { type: new GraphQLNonNull(UUIDType) };
 const isMale = { type: GraphQLBoolean };
@@ -18,6 +19,11 @@ export const ProfileType = new GraphQLObjectType<Profile, Context>({
         isMale,
         yearOfBirth,
         userId,
+        memberTypeId,
+        memberType: {
+            type: MemberType,
+            resolve: memberResolvers.memberTypeByMemberTypeId,
+        },
     }),
 });
 

@@ -20,7 +20,7 @@ const rootQuery = new GraphQLObjectType({
             args: {
                 id,
             },
-            resolve: profileResolvers.profileByID,
+            resolve: profileResolvers.profileById,
         },
         profiles: {
             type: ProfilesType,
