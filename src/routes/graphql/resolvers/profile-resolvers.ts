@@ -1,7 +1,7 @@
-import { GraphQLFieldResolver } from "graphql";
+import { GraphQLFieldResolver } from 'graphql';
 import { Profile } from '@prisma/client';
 import { Context } from '../get-gql-context.js';
-import { IdArgs } from "../interfaces/args.js";
+import { IdArgs } from '../interfaces/args.js';
 
 const profileResolvers: { [key: string]: GraphQLFieldResolver<unknown, Context> } = {
     profilesAll: async function (_source, _args, context): Promise<Profile[]> {
@@ -19,6 +19,14 @@ const profileResolvers: { [key: string]: GraphQLFieldResolver<unknown, Context> 
         console.log('profile for id', args.id, profile);
 
         return profile;
+    },
+    createProfile: async function (_source, args: Profile, context): Promise<Profile> {
+        const newProfile = await context.prisma.profile.create({
+            data: args,
+        });
+        console.log('new profile', args, newProfile);
+
+        return newProfile;
     },
 };
 

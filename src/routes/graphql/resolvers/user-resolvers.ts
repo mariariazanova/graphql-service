@@ -20,6 +20,14 @@ const userResolvers: { [key: string]: GraphQLFieldResolver<User, Context> } = {
 
         return user;
     },
+    createUser: async function (_source, args: User, context): Promise<User | null> {
+        const newUser = await context.prisma.user.create({
+            data: args,
+        });
+        console.log('newUser', args, newUser);
+
+        return newUser;
+    },
 };
 
 export default userResolvers;
