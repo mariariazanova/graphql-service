@@ -7,6 +7,8 @@ import { MemberType, MemberTypeId, MemberTypesType } from "./types/member.js";
 import memberResolvers from "./resolvers/member-resolvers.js";
 import {PostsType, PostType} from "./types/post.js";
 import postResolvers from "./resolvers/post-resolvers.js";
+import {UsersType, UserType} from "./types/user.js";
+import userResolvers from "./resolvers/user-resolvers.js";
 
 const id = { type: new GraphQLNonNull(UUIDType) };
 
@@ -47,6 +49,17 @@ const rootQuery = new GraphQLObjectType({
         posts: {
             type: PostsType,
             resolve: postResolvers.postsAll,
+        },
+        users: {
+            type: UsersType,
+            resolve: userResolvers.usersAll,
+        },
+        user: {
+            type: UserType,
+            args: {
+                id,
+            },
+            resolve: userResolvers.userById,
         },
     },
 });
