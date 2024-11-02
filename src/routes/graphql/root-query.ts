@@ -1,14 +1,14 @@
 import { GraphQLObjectType } from 'graphql/type/index.js';
-import {GraphQLNonNull} from "graphql";
-import {ProfilesType, ProfileType} from "./types/profile.js";
-import profileResolvers from "./resolvers/profile-resolvers.js";
-import { UUIDType } from "./types/uuid.js";
-import { MemberType, MemberTypeId, MemberTypesType } from "./types/member.js";
-import memberResolvers from "./resolvers/member-resolvers.js";
-import {PostsType, PostType} from "./types/post.js";
-import postResolvers from "./resolvers/post-resolvers.js";
-import {UsersType, UserType} from "./types/user.js";
-import userResolvers from "./resolvers/user-resolvers.js";
+import { GraphQLNonNull } from 'graphql';
+import { ProfilesType, ProfileType } from './types/profile.js';
+import profileResolvers from './resolvers/profile-resolvers.js';
+import { UUIDType } from './types/uuid.js';
+import { MemberType, MemberTypeId, MemberTypesType } from './types/member.js';
+import memberResolvers from './resolvers/member-resolvers.js';
+import { PostsType, PostType } from "./types/post.js";
+import postResolvers from './resolvers/post-resolvers.js';
+import { UsersType, UserType } from './types/user.js';
+import userResolvers from './resolvers/user-resolvers.js';
 
 const id = { type: new GraphQLNonNull(UUIDType) };
 

@@ -5,7 +5,7 @@ import {
     GraphQLList,
     GraphQLObjectType,
 } from 'graphql';
-import {MemberTypeE} from "../enums/member-type.js";
+import { MemberTypeE } from '../enums/member-type.js';
 
 const discount = { type: GraphQLFloat };
 const postsLimitPerMonth = { type: GraphQLInt }

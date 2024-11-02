@@ -1,8 +1,7 @@
-import {GraphQLBoolean, GraphQLFieldResolver, GraphQLString} from 'graphql';
-import { Context } from '../get-gql-context.js';
+import { GraphQLFieldResolver } from 'graphql';
 import { User } from '@prisma/client';
-import {ChangeArgs, CreateArgs, IdArgs} from "../interfaces/args.js";
-import subscriptionResolvers from "./subscription-resolvers.js";
+import { Context } from '../get-gql-context.js';
+import { ChangeArgs, CreateArgs, IdArgs } from '../interfaces/args.js';
 
 const userResolvers: { [key: string]: GraphQLFieldResolver<User, Context> } = {
     usersAll: async function (_source, _args, context): Promise<User[]> {

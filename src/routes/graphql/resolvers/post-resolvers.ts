@@ -1,7 +1,7 @@
 import { GraphQLFieldResolver } from 'graphql';
-import {Post} from '@prisma/client';
+import { Post, User } from '@prisma/client';
 import { Context } from '../get-gql-context.js';
-import {ChangeArgs, CreateArgs, IdArgs} from '../interfaces/args.js';
+import { ChangeArgs, CreateArgs, IdArgs } from '../interfaces/args.js';
 
 const postResolvers: { [key: string]: GraphQLFieldResolver<unknown, Context> } = {
     postsAll: async function (_source, _args, context): Promise<Post[]> {
@@ -49,6 +49,14 @@ const postResolvers: { [key: string]: GraphQLFieldResolver<unknown, Context> } =
         } catch (e) {
             return false;
         }
+    },
+    postByUserId: async function (source, _args, context): Promise<Post[] | null> {
+        const { id } = <User>source;
+        const posts = await context.prisma.post.findMany({
+            where: { authorId: id },
+        });
+
+        return posts;
     },
 };
 

@@ -1,5 +1,5 @@
 import { GraphQLFieldResolver } from 'graphql';
-import {MemberType} from '@prisma/client';
+import { MemberType, Profile } from '@prisma/client';
 import { Context } from '../get-gql-context.js';
 
 const memberResolvers: { [key: string]: GraphQLFieldResolver<unknown, Context> } = {
@@ -21,6 +21,14 @@ const memberResolvers: { [key: string]: GraphQLFieldResolver<unknown, Context> }
         });
 
         console.log(memberType);
+
+        return memberType;
+    },
+    memberTypeByMemberTypeId: async function (source, _args, context) {
+        const { memberTypeId } = <Profile>source;
+        const memberType = await context.prisma.memberType.findUnique({
+            where: { id: memberTypeId },
+        });
 
         return memberType;
     },

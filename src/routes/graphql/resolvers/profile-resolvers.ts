@@ -1,7 +1,7 @@
 import { GraphQLFieldResolver } from 'graphql';
-import { Profile } from '@prisma/client';
+import { Profile, User } from '@prisma/client';
 import { Context } from '../get-gql-context.js';
-import {ChangeArgs, CreateArgs, IdArgs} from '../interfaces/args.js';
+import { ChangeArgs, CreateArgs, IdArgs } from '../interfaces/args.js';
 
 const profileResolvers: { [key: string]: GraphQLFieldResolver<unknown, Context> } = {
     profilesAll: async function (_source, _args, context): Promise<Profile[]> {
@@ -47,6 +47,14 @@ const profileResolvers: { [key: string]: GraphQLFieldResolver<unknown, Context> 
         } catch (e) {
             return false;
         }
+    },
+    getByUserId: async function (source, _args, context): Promise<Profile | null> {
+        const { id } = <User>source;
+        const profile = await context.prisma.profile.findUnique({
+            where: { userId: id },
+        });
+
+        return profile;
     },
 };
 

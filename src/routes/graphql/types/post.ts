@@ -1,8 +1,8 @@
-import { GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLString } from "graphql";
-import { UUIDType } from "./uuid.js";
-import { Post } from "@prisma/client";
+import { GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLString } from 'graphql';
+import { GraphQLInputObjectType } from 'graphql/type/index.js';
+import { Post } from '@prisma/client';
+import { UUIDType } from './uuid.js';
 import { Context} from '../get-gql-context.js';
-import {GraphQLInputObjectType} from "graphql/type/index.js";
 
 const id = { type: new GraphQLNonNull(UUIDType) };
 const title = { type: new GraphQLNonNull(GraphQLString) };
