@@ -1,7 +1,7 @@
 import { GraphQLFieldResolver } from 'graphql';
 import {Post} from '@prisma/client';
 import { Context } from '../get-gql-context.js';
-import { IdArgs} from '../interfaces/args.js';
+import {ChangeArgs, CreateArgs, IdArgs} from '../interfaces/args.js';
 
 const postResolvers: { [key: string]: GraphQLFieldResolver<unknown, Context> } = {
     postsAll: async function (_source, _args, context): Promise<Post[]> {
@@ -21,13 +21,22 @@ const postResolvers: { [key: string]: GraphQLFieldResolver<unknown, Context> } =
 
         return post ?? null;
     },
-    createPost: async function (_source, args: Post, context): Promise<Post> {
+    createPost: async function (_source, args: CreateArgs<Post>, context): Promise<Post> {
         const newPost = await context.prisma.post.create({
-            data: args,
+            data: args.dto,
         });
         console.log('new post', args, newPost);
 
         return newPost;
+    },
+    changePost: async function (_source, args: ChangeArgs<Post>, context): Promise<Post> {
+        const { id, dto } = args;
+        const changedPost = await context.prisma.post.update({
+            where: { id },
+            data: dto,
+        });
+
+        return changedPost;
     },
 };
 

@@ -31,3 +31,11 @@ export const CreateUserInputType = new GraphQLInputObjectType({
         balance,
     }),
 });
+
+export const ChangeUserInputType = new GraphQLInputObjectType({
+    name: 'ChangeUserInput',
+    fields: () => ({
+        name,
+        balance: { type: GraphQLFloat },
+    }),
+});

@@ -1,7 +1,7 @@
 import { GraphQLFieldResolver } from 'graphql';
 import { Context } from '../get-gql-context.js';
 import { User } from '@prisma/client';
-import { IdArgs } from "../interfaces/args.js";
+import {ChangeArgs, CreateArgs, IdArgs} from "../interfaces/args.js";
 
 const userResolvers: { [key: string]: GraphQLFieldResolver<User, Context> } = {
     usersAll: async function (_source, _args, context): Promise<User[]> {
@@ -20,13 +20,22 @@ const userResolvers: { [key: string]: GraphQLFieldResolver<User, Context> } = {
 
         return user;
     },
-    createUser: async function (_source, args: User, context): Promise<User | null> {
+    createUser: async function (_source, args: CreateArgs<User>, context): Promise<User | null> {
         const newUser = await context.prisma.user.create({
-            data: args,
+            data: args.dto,
         });
         console.log('newUser', args, newUser);
 
         return newUser;
+    },
+    changeUser: async function (_source, args: ChangeArgs<User>, context): Promise<User> {
+        const { id, dto } = args;
+        const changedUser = await context.prisma.user.update({
+            where: { id },
+            data: dto,
+        })
+
+        return changedUser;
     },
 };
 

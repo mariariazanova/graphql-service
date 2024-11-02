@@ -1,10 +1,10 @@
 import {GraphQLNonNull, GraphQLObjectType} from 'graphql/type/index.js';
 import {UUIDType} from './types/uuid.js';
-import {CreateUserInputType, UserType} from './types/user.js';
+import {ChangeUserInputType, CreateUserInputType, UserType} from './types/user.js';
 import userResolvers from './resolvers/user-resolvers.js';
-import {CreatePostInputType, PostType} from './types/post.js';
+import {ChangePostInputType, CreatePostInputType, PostType} from './types/post.js';
 import postResolvers from './resolvers/post-resolvers.js';
-import {CreateProfileInputType, ProfileType} from './types/profile.js';
+import {ChangeProfileInputType, CreateProfileInputType, ProfileType} from './types/profile.js';
 import profileResolvers from './resolvers/profile-resolvers.js';
 
 const id = { type: new GraphQLNonNull(UUIDType) };
@@ -19,6 +19,14 @@ const rootMutation = new GraphQLObjectType({
             },
             resolve: userResolvers.createUser,
         },
+        changeUser: {
+            type: UserType,
+            args: {
+                id,
+                dto: { type: ChangeUserInputType },
+            },
+            resolve: userResolvers.changeUser,
+        },
         createPost: {
             type: PostType,
             args: {
@@ -26,12 +34,28 @@ const rootMutation = new GraphQLObjectType({
             },
             resolve: postResolvers.createPost,
         },
+        changePost: {
+            type: PostType,
+            args: {
+                id,
+                dto: { type: ChangePostInputType },
+            },
+            resolve: postResolvers.changePost,
+        },
         createProfile: {
             type: ProfileType,
             args: {
                 dto: { type: CreateProfileInputType },
             },
             resolve: profileResolvers.createProfile,
+        },
+        changeProfile: {
+            type: ProfileType,
+            args: {
+                id,
+                dto: { type: ChangeProfileInputType },
+            },
+            resolve: profileResolvers.changeProfile,
         },
     },
 });
