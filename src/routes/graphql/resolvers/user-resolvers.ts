@@ -1,7 +1,8 @@
-import { GraphQLFieldResolver } from 'graphql';
+import {GraphQLBoolean, GraphQLFieldResolver, GraphQLString} from 'graphql';
 import { Context } from '../get-gql-context.js';
 import { User } from '@prisma/client';
 import {ChangeArgs, CreateArgs, IdArgs} from "../interfaces/args.js";
+import subscriptionResolvers from "./subscription-resolvers.js";
 
 const userResolvers: { [key: string]: GraphQLFieldResolver<User, Context> } = {
     usersAll: async function (_source, _args, context): Promise<User[]> {
@@ -48,6 +49,32 @@ const userResolvers: { [key: string]: GraphQLFieldResolver<User, Context> } = {
         } catch (e) {
             return false;
         }
+    },
+    userSubscribedTo: async function (source: User, _args, context): Promise<(User | Error)[] | null> {
+        const userSubscriptions = await context.prisma.user.findMany({
+            where: {
+                subscribedToUser: {
+                    some: {
+                        subscriberId: source.id,
+                    },
+                },
+            },
+        });
+
+        return userSubscriptions;
+    },
+    subscribedToUser: async function (source: User, _args, context): Promise<(User | Error)[] | null> {
+        const userFans = await context.prisma.user.findMany({
+            where: {
+                userSubscribedTo: {
+                    some: {
+                        authorId: source.id,
+                    },
+                },
+            },
+        });
+
+        return userFans;
     },
 };
 

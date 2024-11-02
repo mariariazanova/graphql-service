@@ -5,9 +5,10 @@ import {
     GraphQLString
 } from 'graphql/type/index.js';
 import { Context} from '../get-gql-context.js';
-import {UUIDType} from './uuid.js';
+import { UUIDType} from './uuid.js';
 import {GraphQLList} from 'graphql';
 import { User } from '@prisma/client';
+import userResolvers from "../resolvers/user-resolvers.js";
 
 const id = { type: new GraphQLNonNull(UUIDType) };
 const name = { type: new GraphQLNonNull(GraphQLString) };
@@ -19,6 +20,14 @@ export const UserType = new GraphQLObjectType<User, Context>({
         id,
         name,
         balance,
+        userSubscribedTo: {
+            type: <GraphQLList<typeof UserType>>UsersType,
+            resolve: userResolvers.userSubscribedTo,
+        },
+        subscribedToUser: {
+            type: <GraphQLList<typeof UserType>>UsersType,
+            resolve: userResolvers.subscribedToUser,
+        },
     }),
 });
 
