@@ -37,6 +37,17 @@ const profileResolvers: { [key: string]: GraphQLFieldResolver<unknown, Context> 
 
         return changedProfile;
     },
+    deleteProfile: async function (_source, args: IdArgs<Profile>, context): Promise<boolean> {
+        const { id } = args;
+        try {
+            await context.prisma.profile.delete({
+                where: { id },
+            });
+            return true;
+        } catch (e) {
+            return false;
+        }
+    },
 };
 
 export default profileResolvers;

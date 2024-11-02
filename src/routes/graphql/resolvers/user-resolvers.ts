@@ -37,6 +37,18 @@ const userResolvers: { [key: string]: GraphQLFieldResolver<User, Context> } = {
 
         return changedUser;
     },
+    deleteUser: async function (_source, args: IdArgs<User>, context): Promise<boolean> {
+        const { id } = args;
+        try {
+            await context.prisma.user.delete({
+                where: { id },
+            });
+
+            return true;
+        } catch (e) {
+            return false;
+        }
+    },
 };
 
 export default userResolvers;

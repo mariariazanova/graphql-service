@@ -38,6 +38,18 @@ const postResolvers: { [key: string]: GraphQLFieldResolver<unknown, Context> } =
 
         return changedPost;
     },
+    deletePost: async function (_source, args: IdArgs<Post>, context): Promise<boolean> {
+        const { id } = args;
+        try {
+            await context.prisma.post.delete({
+                where: { id },
+            });
+
+            return true;
+        } catch (e) {
+            return false;
+        }
+    },
 };
 
 export default postResolvers;

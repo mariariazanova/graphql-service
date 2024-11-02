@@ -1,10 +1,11 @@
 import {GraphQLNonNull, GraphQLObjectType} from 'graphql/type/index.js';
-import {UUIDType} from './types/uuid.js';
-import {ChangeUserInputType, CreateUserInputType, UserType} from './types/user.js';
+import { GraphQLBoolean } from 'graphql';
+import { UUIDType} from './types/uuid.js';
+import { ChangeUserInputType, CreateUserInputType, UserType } from './types/user.js';
 import userResolvers from './resolvers/user-resolvers.js';
-import {ChangePostInputType, CreatePostInputType, PostType} from './types/post.js';
+import { ChangePostInputType, CreatePostInputType, PostType } from './types/post.js';
 import postResolvers from './resolvers/post-resolvers.js';
-import {ChangeProfileInputType, CreateProfileInputType, ProfileType} from './types/profile.js';
+import { ChangeProfileInputType, CreateProfileInputType, ProfileType } from './types/profile.js';
 import profileResolvers from './resolvers/profile-resolvers.js';
 
 const id = { type: new GraphQLNonNull(UUIDType) };
@@ -27,6 +28,13 @@ const rootMutation = new GraphQLObjectType({
             },
             resolve: userResolvers.changeUser,
         },
+        deleteUser: {
+            type: GraphQLBoolean,
+            args: {
+                id,
+            },
+            resolve: userResolvers.deleteUser,
+        },
         createPost: {
             type: PostType,
             args: {
@@ -42,6 +50,13 @@ const rootMutation = new GraphQLObjectType({
             },
             resolve: postResolvers.changePost,
         },
+        deletePost: {
+            type: GraphQLBoolean,
+            args: {
+                id,
+            },
+            resolve: postResolvers.deletePost,
+        },
         createProfile: {
             type: ProfileType,
             args: {
@@ -56,6 +71,13 @@ const rootMutation = new GraphQLObjectType({
                 dto: { type: ChangeProfileInputType },
             },
             resolve: profileResolvers.changeProfile,
+        },
+        deleteProfile: {
+            type: GraphQLBoolean,
+            args: {
+                id,
+            },
+            resolve: profileResolvers.deleteProfile,
         },
     },
 });
