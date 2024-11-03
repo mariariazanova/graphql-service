@@ -5,7 +5,6 @@ import { Context } from '../get-gql-context.js';
 const memberResolvers: { [key: string]: GraphQLFieldResolver<unknown, Context> } = {
     memberTypesAll: async function (_source, _args, context: Context): Promise<MemberType[]> {
         const members = await context.prisma.memberType.findMany();
-        console.log('members', members);
 
         return members;
     },
@@ -20,8 +19,6 @@ const memberResolvers: { [key: string]: GraphQLFieldResolver<unknown, Context> }
         //     where: { id },
         // });
         const memberType = context.loaders.memberTypeDataloader.load(id);
-
-        console.log(memberType);
 
         return memberType;
     },

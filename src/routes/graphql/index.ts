@@ -32,8 +32,6 @@ const plugin: FastifyPluginAsyncTypebox = async (fastify) => {
         contextValue: getGqlContext(prisma),
       });
 
-      console.log('result', result);
-
       return result;
     },
   });

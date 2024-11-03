@@ -5,7 +5,6 @@ import { SubscribeArgs } from '../interfaces/args.js';
 const subscriptionResolvers: { [key: string]: GraphQLFieldResolver<unknown, Context> } = {
     subscribeTo: async function (_source, args: SubscribeArgs, context): Promise<any> {
         const { userId, authorId } = args;
-
         const result = await context.prisma.subscribersOnAuthors.create({
             data: {
                 subscriberId: userId,
@@ -18,6 +17,7 @@ const subscriptionResolvers: { [key: string]: GraphQLFieldResolver<unknown, Cont
 
     unsubscribeFrom: async function (_source, args: SubscribeArgs, context): Promise<boolean> {
         const { userId, authorId } = args;
+
         try {
             await context.prisma.subscribersOnAuthors.delete({
                 where: {

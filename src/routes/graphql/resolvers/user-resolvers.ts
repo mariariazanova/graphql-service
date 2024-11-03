@@ -8,14 +8,11 @@ import { UsersType } from '../types/user.js';
 const userResolvers: { [key: string]: GraphQLFieldResolver<User, Context> } = {
     usersAll: async function (_source, _args, context, info): Promise<User[]> {
         // const users = await context.prisma.user.findMany();
-        console.log('info', info);
         const parsedResolveInfo = parseResolveInfo(info);
-
         const { fields } = simplifyParsedResolveInfoFragmentWithType(
             <ResolveTree>parsedResolveInfo,
             UsersType,
         );
-
         const users = await context.prisma.user.findMany({
             include: {
                 userSubscribedTo: 'userSubscribedTo' in fields,
@@ -24,8 +21,6 @@ const userResolvers: { [key: string]: GraphQLFieldResolver<User, Context> } = {
         });
 
         users.forEach((user) => context.loaders.usersDataloader.prime(user.id, user));
-
-        console.log('users', users);
 
         return users;
     },
@@ -36,15 +31,12 @@ const userResolvers: { [key: string]: GraphQLFieldResolver<User, Context> } = {
         // });
         const user = await context.loaders.usersDataloader.load(id);
 
-        console.log('user with id', _source, args.id, user);
-
         return user;
     },
     createUser: async function (_source, args: CreateArgs<User>, context): Promise<User | null> {
         const newUser = await context.prisma.user.create({
             data: args.dto,
         });
-        console.log('newUser', args, newUser);
 
         return newUser;
     },
@@ -59,6 +51,7 @@ const userResolvers: { [key: string]: GraphQLFieldResolver<User, Context> } = {
     },
     deleteUser: async function (_source, args: IdArgs<User>, context): Promise<boolean> {
         const { id } = args;
+
         try {
             await context.prisma.user.delete({
                 where: { id },
