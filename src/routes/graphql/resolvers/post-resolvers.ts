@@ -52,9 +52,10 @@ const postResolvers: { [key: string]: GraphQLFieldResolver<unknown, Context> } =
     },
     postByUserId: async function (source, _args, context): Promise<Post[] | null> {
         const { id } = <User>source;
-        const posts = await context.prisma.post.findMany({
-            where: { authorId: id },
-        });
+        // const posts = await context.prisma.post.findMany({
+        //     where: { authorId: id },
+        // });
+        const posts = await context.loaders.postsOfUserDataloader.load(id);
 
         return posts;
     },

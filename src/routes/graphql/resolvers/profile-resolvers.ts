@@ -50,9 +50,10 @@ const profileResolvers: { [key: string]: GraphQLFieldResolver<unknown, Context> 
     },
     getByUserId: async function (source, _args, context): Promise<Profile | null> {
         const { id } = <User>source;
-        const profile = await context.prisma.profile.findUnique({
-            where: { userId: id },
-        });
+        // const profile = await context.prisma.profile.findUnique({
+        //     where: { userId: id },
+        // });
+        const profile = await context.loaders.profileDataloader.load(id);
 
         return profile;
     },

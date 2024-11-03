@@ -16,9 +16,10 @@ const memberResolvers: { [key: string]: GraphQLFieldResolver<unknown, Context> }
         context: Context,
     ): Promise<MemberType | null> {
         const { id } = args;
-        const memberType = await context.prisma.memberType.findUnique({
-            where: { id },
-        });
+        // const memberType = await context.prisma.memberType.findUnique({
+        //     where: { id },
+        // });
+        const memberType = context.loaders.memberTypeDataloader.load(id);
 
         console.log(memberType);
 
@@ -26,9 +27,10 @@ const memberResolvers: { [key: string]: GraphQLFieldResolver<unknown, Context> }
     },
     memberTypeByMemberTypeId: async function (source, _args, context) {
         const { memberTypeId } = <Profile>source;
-        const memberType = await context.prisma.memberType.findUnique({
-            where: { id: memberTypeId },
-        });
+        // const memberType = await context.prisma.memberType.findUnique({
+        //     where: { id: memberTypeId },
+        // });
+        const memberType = context.loaders.memberTypeDataloader.load(memberTypeId);
 
         return memberType;
     },

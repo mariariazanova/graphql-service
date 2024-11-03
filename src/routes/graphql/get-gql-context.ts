@@ -1,11 +1,11 @@
 import { PrismaClient } from '@prisma/client';
-import DataLoader from 'dataloader';
+import { buildDataloaders, DataloadersInterface } from './data-loaders.js';
 
 export interface Context {
     prisma: PrismaClient;
-    loaders: Map<string, DataLoader<any, any>>;
+    loaders: DataloadersInterface;
 }
 
 export const getGqlContext = (prisma: PrismaClient): Context => {
-    return { loaders: new Map(), prisma };
+    return { loaders: buildDataloaders(prisma), prisma };
 };
